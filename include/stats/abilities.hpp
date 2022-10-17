@@ -19,29 +19,19 @@
 
 #pragma once
 
-#include <sqlite3.h>
-
 #include <string>
-#include <vector>
-
-#include "stats/races.hpp"
 
 namespace dndcg {
-namespace db {
-
-class DbHandler {
+namespace abilities {
+class Ability {
  public:
-    explicit DbHandler(std::string db_file);
-    ~DbHandler();
-
-    void Open();
-    void Close();
-
-    std::vector<dndcg::races::Race>& GetRaces();
-    dndcg::races::Race& GetRaceInfo(dndcg::races::RaceType race);
-
- private:
-    sqlite3* db;
+    std::string name;
+    int abilityValue;
 };
-}  // namespace db
+
+class CharacterAbility : public Ability {
+ public:
+    int experience;
+};
+}  // namespace abilities
 }  // namespace dndcg

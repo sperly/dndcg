@@ -19,29 +19,43 @@
 
 #pragma once
 
-#include <sqlite3.h>
-
-#include <string>
 #include <vector>
 
-#include "stats/races.hpp"
-
 namespace dndcg {
-namespace db {
+namespace stats {
 
-class DbHandler {
- public:
-    explicit DbHandler(std::string db_file);
-    ~DbHandler();
-
-    void Open();
-    void Close();
-
-    std::vector<dndcg::races::Race>& GetRaces();
-    dndcg::races::Race& GetRaceInfo(dndcg::races::RaceType race);
-
- private:
-    sqlite3* db;
+struct DiceStats {
+    int numberOfRolls;
+    int dieSize;
+    int modifier;
+    int normal;
 };
-}  // namespace db
+
+struct Movements {
+    int land;
+    int water;
+    int air;
+};
+
+struct PlayerStats {
+    int strength;
+    int size;
+    int physique;
+    int agility;
+    int intelligence;
+    int psyche;
+    int charisma;
+};
+
+struct Stats {
+    DiceStats strength;
+    DiceStats size;
+    DiceStats physique;
+    DiceStats agility;
+    DiceStats intelligence;
+    DiceStats psyche;
+    DiceStats charisma;
+};
+
+}  // namespace stats
 }  // namespace dndcg

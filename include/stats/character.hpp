@@ -19,29 +19,45 @@
 
 #pragma once
 
-#include <sqlite3.h>
-
 #include <string>
 #include <vector>
 
+#include "stats/abilities.hpp"
 #include "stats/races.hpp"
+#include "stats/stats.hpp"
+#include "stats/weapons.hpp"
 
 namespace dndcg {
-namespace db {
+namespace characters {
 
-class DbHandler {
+enum class Gender { MALE = 0, FEMALE, NONBINARY, HERMAFRODITE, NO_GENDER };
+
+enum class SocialStatus { NOBLE = 0, HIGH_CLASS, MIDDLE_CLASS, LOW_CLASS, CLASS_LESS };
+
+class Character {
  public:
-    explicit DbHandler(std::string db_file);
-    ~DbHandler();
-
-    void Open();
-    void Close();
-
-    std::vector<dndcg::races::Race>& GetRaces();
-    dndcg::races::Race& GetRaceInfo(dndcg::races::RaceType race);
+    explicit Character(std::string name);
+    Character();
 
  private:
-    sqlite3* db;
+    std::string playerName;
+    std::string gameLeaderName;
+    std::string name;
+    enum races::RaceType race;
+    enum Gender gender;
+    unsigned int age;
+    std::string occupation;
+    enum SocialStatus socialStatus;
+    std::string birthPlace;
+
+    stats::Stats basicStats;
+    int bodyPoints;
+    stats::Movements movement;
+    int bonusExperiensPoints;
+    std::vector<abilities::CharacterAbility> abilitiea;
+    std::vector<std::string> heroAbilities;
+    int heroPoints;
+    std::vector<weapons::Weapon> weapons;
 };
-}  // namespace db
+}  // namespace characters
 }  // namespace dndcg
