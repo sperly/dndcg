@@ -1,4 +1,4 @@
-#include "character.hpp"
+#include "stats/character.hpp"
 
 namespace dndcg {
 namespace characters {

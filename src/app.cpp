@@ -1,6 +1,6 @@
 #include "app.hpp"
 
-#include "character.hpp"
+#include "stats/character.hpp"
 #include "db_handler.hpp"
 #include "gui/gui.hpp"
 

@@ -1,6 +1,6 @@
 #include "gui/gui.hpp"
 
-#include "../utils.hpp"
+#include "utils.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

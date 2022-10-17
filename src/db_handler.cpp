@@ -1,6 +1,6 @@
 #include "db_handler.hpp"
 
-#include "races.hpp"
+#include "stats/races.hpp"
 
 #include <iostream>
 #include <string>
