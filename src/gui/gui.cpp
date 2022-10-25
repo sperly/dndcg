@@ -1,16 +1,27 @@
 #include "gui/gui.hpp"
 
+#include <vector>
+
+#include "gui/character_sheet.hpp"
+
+#include "db_handler.hpp"
+#include "stats/character.hpp"
 #include "utils.hpp"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <wx/wizard.h>
+#include <wx/wx.h>
 
 namespace dndcg {
 namespace gui {
-enum { ID_Hello = 1 };
-Gui::Gui() : wxFrame(NULL, wxID_ANY, L"DoD Karaktär Generator") {
+enum { ID_Hello = 1, ID_Open, ID_Edit };
+
+Gui::Gui(const wxString& title, dndcg::db::DbHandler& db_handler)
+    : wxFrame((wxFrame*)NULL, wxID_ANY, title, wxDefaultPosition, wxSize(250, 150)), db_handler_(db_handler) {  // NOLINT
+
     wxMenu* menuFile = new wxMenu;
-    menuFile->Append(ID_Hello, "&Hello...\tCtrl-H", "Help string shown in status bar for this menu item");
+    menuFile->Append(ID_Open, "&Open\tCtrl-L", "Open database for character data.");
+    menuFile->Append(ID_Edit, "Edit Character\tCtrl-E", "Edit current character");
+
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
@@ -42,25 +53,30 @@ Gui::Gui() : wxFrame(NULL, wxID_ANY, L"DoD Karaktär Generator") {
     SetStatusText("Welcome to wxWidgets!");
 
     Bind(
-        wxEVT_MENU, [=](wxCommandEvent&) { wxLogMessage("Hello world from wxWidgets!"); }, ID_Hello);
+        wxEVT_MENU,
+        [this](wxCommandEvent&) {
+            std::unique_ptr<std::vector<std::pair<int, std::pair<std::string, std::string>>>> characters =
+                this->db_handler_.GetCharacters();
+        },
+        ID_Open);
     Bind(wxEVT_MENU, &Gui::onAbout, this, wxID_ABOUT);
     Bind(
         wxEVT_MENU, [=](wxCommandEvent&) { Close(true); }, wxID_EXIT);
 }
 
 void Gui::onAbout(wxCommandEvent& event) {
-    wxMessageBox(L"Karaktärs-generator för Drakar och Demoner,\nspeciellt anpassad för Experts rollformulär.", "Om DnDCG",
-                 wxOK | wxICON_INFORMATION);
-}
+    // wxMessageBox(L"Karaktärs-generator för Drakar och Demoner,\nspeciellt anpassad för Experts rollformulär.", "Om DnDCG",
+    //              wxOK | wxICON_INFORMATION);
 
-Gui::~Gui() {
-    // ImGui_ImplOpenGL2_Shutdown();
-    // ImGui_ImplSDL2_Shutdown();
-    // ImGui::DestroyContext();
+    std::vector<wxWizardPageSimple*> pages;
+    wxWizard* wizard =
+        new wxWizard(this, wxID_ANY, wxT("Absolutely Useless Wizard"), wxNullBitmap, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
 
-    // SDL_GL_DeleteContext(gl_context);
-    // SDL_DestroyWindow(window);
-    // SDL_Quit();
+    pages.emplace_back(new wxWizardPageSimple(wizard, NULL, NULL, wxNullBitmap));
+
+    wizard->RunWizard(pages[0]);
+
+    wizard->Destroy();
 }
 
 }  // namespace gui

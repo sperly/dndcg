@@ -1,9 +1,11 @@
 #pragma once
 
+#include <wx/generic/panelg.h>
 #include <wx/wx.h>
 
+
 class CharacterSheet : public wxPanel {
-   public:
+ public:
     CharacterSheet(wxPanel* parent, int id);
 
     wxPanel* m_parent;

@@ -19,11 +19,15 @@
 
 #pragma once
 
+#include <SQLiteCpp/SQLiteCpp.h>
 #include <sqlite3.h>
 
+#include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "stats/character.hpp"
 #include "stats/races.hpp"
 
 namespace dndcg {
@@ -37,11 +41,13 @@ class DbHandler {
     void Open();
     void Close();
 
-    std::vector<dndcg::races::Race>& GetRaces();
-    dndcg::races::Race& GetRaceInfo(dndcg::races::RaceType race);
+    std::vector<dndcg::races::Race> GetRaces();
+    dndcg::races::Race GetRaceInfo(dndcg::races::RaceType race);
+    std::unique_ptr<std::vector<std::pair<int, std::pair<std::string, std::string>>>> GetCharacters();
 
  private:
-    sqlite3* db;
+    std::unique_ptr<SQLite::Statement> get_characters_;
+    std::shared_ptr<SQLite::Database> db_;
 };
 }  // namespace db
 }  // namespace dndcg

@@ -1,18 +1,13 @@
 #pragma once
 
-// #include <SDL2/SDL.h>
-// #include <SDL2/SDL_opengl.h>
 #include <memory>
 #include <optional>
-// #include "imgui.h"
-// #include "imgui_impl_opengl2.h"
-// #include "imgui_impl_sdl.h"
 
-#include <wx/wxprec.h>
-
-#ifndef WX_PRECOMP
 #include <wx/wx.h>
-#endif
+
+#include <wx/frame.h>
+
+#include "db_handler.hpp"
 
 namespace dndcg {
 namespace gui {
@@ -23,15 +18,15 @@ namespace gui {
 // };
 
 class Gui : public wxFrame {
-   public:
-    Gui();
-    ~Gui();
+ public:
+    Gui(const wxString& title, dndcg::db::DbHandler& db_handler);
+    ~Gui(){};
 
     // int Init();
     // std::optional<Image> LoadTextureFromFile(const char* filename);
     // void MainLoop();
 
-   private:
+ private:
     // bool show_demo_window;
     // bool show_another_window;
     // ImVec4 clear_color;
@@ -39,6 +34,7 @@ class Gui : public wxFrame {
     // SDL_GLContext gl_context;
     // std::optional<Image> logo;
     void onAbout(wxCommandEvent& event);
+    dndcg::db::DbHandler& db_handler_;
 };
 }  // namespace gui
 }  // namespace dndcg
