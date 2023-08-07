@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "gui/char_gen_wizard.hpp"
 #include "gui/character_sheet.hpp"
 
 #include "db_handler.hpp"
@@ -68,15 +69,17 @@ void Gui::onAbout(wxCommandEvent& event) {
     // wxMessageBox(L"Karaktärs-generator för Drakar och Demoner,\nspeciellt anpassad för Experts rollformulär.", "Om DnDCG",
     //              wxOK | wxICON_INFORMATION);
 
-    std::vector<wxWizardPageSimple*> pages;
-    wxWizard* wizard =
-        new wxWizard(this, wxID_ANY, wxT("Absolutely Useless Wizard"), wxNullBitmap, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
+    // std::vector<wxWizardPageSimple*> pages;
+    // wxWizard* wizard =
+    //     new wxWizard(this, wxID_ANY, wxT("Absolutely Useless Wizard"), wxNullBitmap, wxDefaultPosition, wxDEFAULT_DIALOG_STYLE);
 
-    pages.emplace_back(new wxWizardPageSimple(wizard, NULL, NULL, wxNullBitmap));
+    // pages.emplace_back(new wxWizardPageSimple(wizard, NULL, NULL, wxNullBitmap));
 
-    wizard->RunWizard(pages[0]);
+    // wizard->RunWizard(pages[0]);
 
-    wizard->Destroy();
+    // wizard->Destroy();
+    CharacterGenerationWizard wiz(this);
+    wiz.Run();
 }
 
 }  // namespace gui

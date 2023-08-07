@@ -1,15 +1,20 @@
 #pragma once
 
-#include <wx/wxprec.h>
-
-#ifndef WX_PRECOMP
 #include <wx/wx.h>
-#endif
+
+#include "db_handler.hpp"
+
 namespace dndcg {
 namespace app {
 class App : public wxApp {
-   public:
+ public:
+    App();
+    ~App() = default;
+
     virtual bool OnInit();
+
+ private:
+    dndcg::db::DbHandler db_;
 };
 }  // namespace app
 }  // namespace dndcg
